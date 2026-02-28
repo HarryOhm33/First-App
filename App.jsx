@@ -9,12 +9,12 @@ import {
   TouchableHighlight,
   Alert,
   Pressable,
+  TextInput,
 } from 'react-native';
 import React, { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { BaseToast } from 'react-native-toast-message';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 const toastConfig = {
   success: props => (
     <BaseToast
@@ -29,6 +29,13 @@ const toastConfig = {
 const App = () => {
   const [height, setHeight] = useState(200);
   // console.log('APP RENDERED 🔥');
+  const [parrot, setParrot] = useState('');
+  const [name, setName] = useState('');
+
+  const handleSubmit = () => {
+    setParrot(name);
+    setName('');
+  };
 
   return (
     <>
@@ -44,33 +51,70 @@ const App = () => {
           }}
         />
 
-        {/* buttons */}
-        <TouchableOpacity
-          style={{ padding: 10, backgroundColor: 'green' }}
-          onPressIn={() => setHeight(h => h + 20)}
-          onPressOut={() => setHeight(h => h - 20)}
+        <Text
+          style={{
+            color: 'white',
+            alignSelf: 'center',
+            width: '80%',
+            textAlign: 'center',
+            fontSize: 25,
+            fontWeight: '700',
+          }}
         >
-          <Text>Button</Text>
-        </TouchableOpacity>
+          {parrot ? `Hi, I am ${parrot}!! 🙃` : 'Please Name Me!! ☹️'}
+        </Text>
 
-        <TouchableOpacity
-          style={{ padding: 10, backgroundColor: 'blue', marginTop: 10 }}
-          onPress={() => Alert.alert('Button Pressed')}
-        >
-          <Text>Button</Text>
-        </TouchableOpacity>
+        <TextInput
+          style={{
+            padding: 10,
+            width: '80%',
+            fontSize: 16,
+            fontWeight: '600',
+            color: 'white',
+            backgroundColor: 'black',
+            borderRadius: 10,
+          }}
+          placeholder="Enter Name ..."
+          placeholderTextColor={'#555'}
+          value={name}
+          onChangeText={text => setName(text)}
+        />
 
-        <Pressable
-          style={styles.btn}
-          onPress={() =>
-            Toast.show({
-              type: 'success',
-              text1: 'Button Pressed',
-            })
-          }
-        >
-          <Text>Button</Text>
-        </Pressable>
+        <Button
+          title="Submit"
+          onPress={() => handleSubmit()}
+          color={'purple'}
+        />
+
+        <View style={styles.testButtons}>
+          {/* buttons */}
+          <TouchableOpacity
+            style={{ padding: 10, backgroundColor: 'green' }}
+            onPressIn={() => setHeight(h => h + 20)}
+            onPressOut={() => setHeight(h => h - 20)}
+          >
+            <Text>Button</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ padding: 10, backgroundColor: 'blue', marginTop: 10 }}
+            onPress={() => Alert.alert('Button Pressed')}
+          >
+            <Text>Button</Text>
+          </TouchableOpacity>
+
+          <Pressable
+            style={styles.btn}
+            onPress={() =>
+              Toast.show({
+                type: 'success',
+                text1: 'Button Pressed',
+              })
+            }
+          >
+            <Text>Button</Text>
+          </Pressable>
+        </View>
       </SafeAreaView>
 
       {/* keep outside */}
@@ -118,6 +162,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
     textAlignVertical: 'center',
+  },
+
+  testButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
   },
 });
 
